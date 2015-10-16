@@ -20,8 +20,10 @@ namespace ezi
     /// </summary>
     public partial class MainWindow : Window
     {
+        Knowledge knowledge;
         public MainWindow()
         {
+            knowledge = new Knowledge();
             InitializeComponent();
         }
 
@@ -52,6 +54,11 @@ namespace ezi
                     KeywordsTextBox.Text = filename;
                 }
             }
+        }
+
+        private void ProcessButton_Click(object sender, RoutedEventArgs e)
+        {
+            knowledge.UpdateData(DocumentsTextBox.Text, KeywordsTextBox.Text);
         }
 
     }
