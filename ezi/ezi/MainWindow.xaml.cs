@@ -24,5 +24,35 @@ namespace ezi
         {
             InitializeComponent();
         }
+
+        private void BrowseButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Create OpenFileDialog
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+
+            // Set filter for file extension and default file extension
+            dlg.DefaultExt = ".txt";
+            dlg.Filter = "Text documents (.txt)|*.txt";
+
+            // Display OpenFileDialog by calling ShowDialog method
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Get the selected file name and display in a TextBox
+            if (result == true)
+            {
+                // Open document
+                string filename = dlg.FileName;
+                Button button = sender as Button;
+                if (button.Name == "DocumentsButton")
+                {
+                    DocumentsTextBox.Text = filename;
+                }
+                else if (button.Name == "KeywordsButton")
+                {
+                    KeywordsTextBox.Text = filename;
+                }
+            }
+        }
+
     }
 }
