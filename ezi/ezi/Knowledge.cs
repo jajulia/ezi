@@ -9,8 +9,8 @@ namespace ezi
 {
     public class Knowledge
     {
-        List<Document> documents;
-        List<String> keywords;
+        public List<Document> documents { get; private set; }
+        public List<String> keywords { get; private set; }
 
         public Knowledge() 
         {
@@ -24,6 +24,8 @@ namespace ezi
             this.documents.Clear();
             this.keywords.Clear();
             bool first = true;
+
+            //TO DO jeśli koneiczna będzie walidacja poprawności struktury plików to trzeba dopisać, bo narazie zakładamy poprawnosc domyslnie
 
             foreach (String part in File.ReadAllLines(documentsFileName))
             {
@@ -46,6 +48,13 @@ namespace ezi
                         
                     }
                 }
+
+            }
+
+            foreach (String part in File.ReadAllLines(keywordsFileName))
+            {
+                
+                this.keywords.Add(part);
 
             }
         }
