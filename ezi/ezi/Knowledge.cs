@@ -12,12 +12,24 @@ namespace ezi
         public List<Document> documents { get; private set; }
         public List<String> keywords { get; private set; }
 
-        public Knowledge() 
+        public Knowledge()
         {
             this.documents = new List<Document>();
             this.keywords = new List<String>();
         }
 
+        private String CleanTerm(String tempTerm)
+        {
+            tempTerm = tempTerm.ToLower();
+            
+            string[] toRemove = new string[]{",", ".", "/", "<", ">", "?", ";", "'", ":", "\"","[", "]", "{", "}", "\\", "|", "~", "`", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")" };
+
+            foreach (string tempChar in toRemove)
+            {
+                tempTerm.Replace(tempChar, "");
+            }
+            return tempTerm;
+        }
 
         public void UpdateData(string documentsFileName, string keywordsFileName)
         {
@@ -39,25 +51,24 @@ namespace ezi
                     this.documents.Add(new Document(part));
                     first = false;
                 }
-                else
+                String[] terms = part.Split(new char[] { ' ' });
+                for (int i = 0; i < terms.Length; i++)
                 {
-                    String[] terms = part.Split(new char[] { ' ' });
-                    for (int i = 0; i < terms.Length; i++)
-                    {
-                        this.documents.Last().AddTerm(terms[i]);
-                        
-                    }
+                    this.documents.Last().AddTerm(CleanTerm(terms[i]));
+
                 }
 
             }
 
             foreach (String part in File.ReadAllLines(keywordsFileName))
             {
-                
-                this.keywords.Add(part);
+                if (part.Length > 0)
+                {
+                    this.keywords.Add(CleanTerm(part));
+                }
 
             }
         }
-        
+
     }
 }
