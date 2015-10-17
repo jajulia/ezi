@@ -20,7 +20,7 @@ namespace ezi
     /// </summary>
     public partial class MainWindow : Window
     {
-        Knowledge knowledge;
+        private Knowledge knowledge;
         public MainWindow()
         {
             knowledge = new Knowledge();
@@ -58,7 +58,18 @@ namespace ezi
 
         private void ProcessButton_Click(object sender, RoutedEventArgs e)
         {
-            knowledge.UpdateData(DocumentsTextBox.Text, KeywordsTextBox.Text);
+            
+            try
+            {
+                knowledge.UpdateData(DocumentsTextBox.Text, KeywordsTextBox.Text);
+                DocumentsListView.ItemsSource = knowledge.documents;
+                KeywordsListView.ItemsSource = knowledge.keywords;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK,MessageBoxImage.Error);
+            }
+
         }
 
     }

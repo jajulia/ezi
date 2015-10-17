@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace ezi
 {
-    class Document
+    public class Document
     {
-        string name;
-        List<Term> terms;
+        public string name { get; private set; }
+        public List<Term> terms { get; private set; }
+        public string termsInSTring { get { return string.Join(",", terms); } }
 
         public Document(string tempName)
         {
