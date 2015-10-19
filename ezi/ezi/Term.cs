@@ -9,9 +9,20 @@ namespace ezi
     public class Term
     {
         private String value;
+
+        public String Value
+        {
+            get { return this.value; }
+            set { this.value = value; }
+        }
         private int count;
 
-
+        public int Count
+        {
+            get { return count; }
+            set { count = value; }
+        }
+        
         public Term(String tempValue) 
         {
             this.value = tempValue;

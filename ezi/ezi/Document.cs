@@ -20,7 +20,16 @@ namespace ezi
         public void AddTerm(String value)
         {
             //if nie ma
-            terms.Add(new Term(value));
+            if (terms.Exists(x => x.Value == value))
+            {
+                Term t = terms.Find(x => x.Value == value);
+                t.Count++;
+            }
+            else
+            {
+                terms.Add(new Term(value));
+            }
+            
         }
     }
 }
