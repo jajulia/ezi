@@ -18,6 +18,9 @@ namespace ezi
         {
             this.name = tempName;
             this.terms = new Term();
+            this.result = 0;
+            this.length = 0;
+
         }
         public void AddTerm(String value)
         {

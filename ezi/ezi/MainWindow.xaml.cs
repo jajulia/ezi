@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -61,11 +62,28 @@ namespace ezi
             
             try
             {
-                knowledge.UpdateData(DocumentsTextBox.Text, KeywordsTextBox.Text);
-                DocumentsListView.ItemsSource = knowledge.documents;
-                KeywordsListView.ItemsSource = knowledge.keywords;
-                knowledge.Calculate(Query.Text);
+                if (QueryTextBox.Text.Length > 0 && DocumentsTextBox.Text.Length > 0 && KeywordsTextBox.Text.Length > 0)
+                {
+                    knowledge.UpdateData(DocumentsTextBox.Text, KeywordsTextBox.Text);
+                    DocumentsListView.ItemsSource = knowledge.documents;
+                    KeywordsListView.ItemsSource = knowledge.keywords;
+                    knowledge.Calculate(QueryTextBox.Text);
+                    //knowledge.documents.OrderBy(x => x.result);
+                    ResultListView.ItemsSource = knowledge.documents.OrderByDescending(x => x.result); //knowledge.documents;
+                    ICollectionView view = CollectionViewSource.GetDefaultView(DocumentsListView.ItemsSource);
+                    view.Refresh();
+                    view = CollectionViewSource.GetDefaultView(KeywordsListView.ItemsSource);
+                    view.Refresh();
+                    view = CollectionViewSource.GetDefaultView(ResultListView.ItemsSource);
+                    view.Refresh();
+                    
 
+                }
+                else
+                {
+                    throw new Exception("Brak wszytskich danych. Nalezy podac dwa pliki oraz zapytanie.");
+                }
+                
             }
             catch (Exception ex)
             {
@@ -73,6 +91,7 @@ namespace ezi
             }
 
         }
+
 
 
     }

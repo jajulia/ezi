@@ -25,17 +25,18 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <TextBox Name="Query" HorizontalAlignment="Left" Height="149" Margin="40,465,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="459">
+        <TextBox Name="QueryTextBox" HorizontalAlignment="Left" Height="149" Margin="40,465,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="313">
             <TextBox.Background>
                 <ImageBrush/>
             </TextBox.Background>
         </TextBox>
         <Label Content="Zapytanie" HorizontalAlignment="Left" Margin="40,434,0,0" VerticalAlignment="Top"/>
         <Separator HorizontalAlignment="Left" Height="16" Margin="40,413,0,0" VerticalAlignment="Top" Width="1014" Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}"/>
-        <ListView Name="ResultListView" HorizontalAlignment="Left" Height="187" Margin="538,465,0,0" VerticalAlignment="Top" Width="516">
+        <ListView Name="ResultListView" HorizontalAlignment="Left" Height="185" Margin="388,465,0,0" VerticalAlignment="Top" Width="666">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn/>
+                    <GridViewColumn Header="Nazwa dokumentu" DisplayMemberBinding="{Binding name}" Width="250"/>
+                    <GridViewColumn Header="Wynik" DisplayMemberBinding="{Binding result}" Width="500"/>
                 </GridView>
             </ListView.View>
         </ListView>

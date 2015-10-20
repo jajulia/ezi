@@ -13,6 +13,7 @@ namespace ezi
         public List<Document> documents { get; private set; }
         public Dictionary<String, int> keywords { get; private set; }
 
+
         public Knowledge()
         {
             this.documents = new List<Document>();
@@ -33,7 +34,13 @@ namespace ezi
                     Stemmer s = new Stemmer();
                     s.add(part.ToCharArray(), part.Length);
                     s.stem();
-                    this.keywords.Add(s.ToString(), 0);
+                    if (!keywords.Keys.Contains(s.ToString()))
+                    {
+                        this.keywords.Add(s.ToString(), 0);
+                    }
+                    else //+++
+                    {
+                    }
                 }
 
             }
@@ -69,10 +76,7 @@ namespace ezi
         public void Calculate(string query)
         {
 
-            double[][] TF = new double[keywords.Count][];
-            double[] IDF = new double[keywords.Count];
-            double[] Q = new double[keywords.Count];
-            int i=0;
+           
             int j=0;
             query = EraseChar(query);
             String[] queryTerms = query.Split(new char[] { ' ' });
@@ -81,19 +85,33 @@ namespace ezi
                 Stemmer s = new Stemmer();
                 s.add(queryTerms[j].ToCharArray(), queryTerms[j].Length);
                 s.stem();
-                this.keywords[s.ToString()] += 1;
+                //sprawdzanie czy jest to w zbiorze jesli tak to +1  //+++
+                if (this.keywords.Keys.Contains(s.ToString()))
+                {
+                    this.keywords[s.ToString()] += 1;
+                }
+                else { } //+++
             }
 
 
             foreach(KeyValuePair<String, int> keyword in keywords)
             {
+                
                 //wykorzstanei result jako bufo
                 foreach (Document docu in documents)
                 {
-                    docu.result += docu.terms[keyword.Key] / docu.terms.Values.Max() 
-                        * Math.Log10(documents.Count/documents.Where(x => x.terms.ContainsKey(keyword.Key)).Count())
-                        * keyword.Value / keywords.Values.Max()
-                        * Math.Log10(documents.Count/documents.Where(x => x.terms.ContainsKey(keyword.Key)).Count());
+                    //+++ czasem nie zawieralo
+                    if (docu.terms.ContainsKey(keyword.Key)
+                        //+++ dzielenie przez zero
+                        && docu.terms.Values.Max() > 0 && keywords.Values.Max() > 0 && documents.Where(x => x.terms.ContainsKey(keyword.Key)).Count() > 0)
+                    {
+
+                        docu.result += docu.terms[keyword.Key] / (double) docu.terms.Values.Max()
+                            * Math.Log10(documents.Count / (double) documents.Where(x => x.terms.ContainsKey(keyword.Key)).Count())
+                            * keyword.Value / (double) keywords.Values.Max()
+                            * Math.Log10(documents.Count / (double) documents.Where(x => x.terms.ContainsKey(keyword.Key)).Count());
+                    }
+
                 }
 
             }
@@ -102,8 +120,14 @@ namespace ezi
                 
                 foreach (KeyValuePair<String, int> keyword in keywords)
                 {
-                    docu.length += Math.Pow(docu.terms[keyword.Key] / docu.terms.Values.Max()
-                        * Math.Log10(documents.Count / documents.Where(x => x.terms.ContainsKey(keyword.Key)).Count()), 2);
+                    //+++ czasem nie zawieralo
+                    if (docu.terms.ContainsKey(keyword.Key)
+                        //+++ dzielenie przez zero
+                        && docu.terms.Values.Max() > 0 && documents.Where(x => x.terms.ContainsKey(keyword.Key)).Count() > 0)
+                    {
+                        docu.length += Math.Pow(docu.terms[keyword.Key] / (double) docu.terms.Values.Max()
+                            * Math.Log10(documents.Count / (double) documents.Where(x => x.terms.ContainsKey(keyword.Key)).Count()), 2);
+                    }
                 }
 
                 docu.length = Math.Sqrt(docu.length);
@@ -111,13 +135,18 @@ namespace ezi
             double len=0;
             foreach (KeyValuePair<String, int> keyword in keywords)
             {
-                len += Math.Pow(keyword.Value / keywords.Values.Max()
-                  * Math.Log10(documents.Count / documents.Where(x => x.terms.ContainsKey(keyword.Key)).Count()),2);
+                //+++
+                if (keywords.Values.Max() > 0 && documents.Where(x => x.terms.ContainsKey(keyword.Key)).Count() > 0)
+                {
+                    len += Math.Pow(keyword.Value / (double) keywords.Values.Max()
+                      * Math.Log10(documents.Count / (double) documents.Where(x => x.terms.ContainsKey(keyword.Key)).Count()), 2);
+                }
             }
             len = Math.Sqrt(len);
             foreach (Document docu in documents)
             {
-                docu.result = docu.result / (docu.length * len);
+                if (docu.length > 0 && len > 0)
+                    docu.result = docu.result / (double) (docu.length * len);
             }
 
         }
