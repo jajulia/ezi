@@ -9,25 +9,25 @@ namespace ezi
     public class Document
     {
         public string name { get; private set; }
-        public List<Term> terms { get; private set; }
+        public Term terms { get; private set; }
         public string termsInSTring { get { return string.Join(",", terms); } }
+        public double result { get; set; }
+        public double length { get; set; }
 
         public Document(string tempName)
         {
             this.name = tempName;
-            this.terms = new List<Term>();
+            this.terms = new Term();
         }
         public void AddTerm(String value)
         {
-            //if nie ma
-            if (terms.Exists(x => x.Value == value))
+              if (terms.ContainsKey(value))
             {
-                Term t = terms.Find(x => x.Value == value);
-                t.Count++;
+                terms[value] += 1;
             }
             else
             {
-                terms.Add(new Term(value));
+                terms.Add(value, 1);
             }
             
         }

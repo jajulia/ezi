@@ -64,7 +64,7 @@ namespace ezi
                 knowledge.UpdateData(DocumentsTextBox.Text, KeywordsTextBox.Text);
                 DocumentsListView.ItemsSource = knowledge.documents;
                 KeywordsListView.ItemsSource = knowledge.keywords;
-                
+                knowledge.Calculate(Query.Text);
 
             }
             catch (Exception ex)
@@ -73,6 +73,7 @@ namespace ezi
             }
 
         }
+
 
     }
 }
