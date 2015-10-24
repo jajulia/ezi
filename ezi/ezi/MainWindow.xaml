@@ -9,10 +9,17 @@
         <Button Name="KeywordsButton" Content="Wbierz plik" HorizontalAlignment="Left" Margin="910,48,0,0" VerticalAlignment="Top" Width="144" Click="BrowseButton_Click"/>
         <Label Content="Plik z dokumentami:" HorizontalAlignment="Left" Margin="50,22,0,0" VerticalAlignment="Top"/>
         <Label Content="Plik z słowami kluczowymi:" HorizontalAlignment="Left" Margin="572,22,0,0" VerticalAlignment="Top"/>
-        <Button Content="Wykonaj" Name="ProcessButton" HorizontalAlignment="Left" Height="33" Margin="436,140,0,0" VerticalAlignment="Top" Width="236" Click="ProcessButton_Click"/>
+        <Button Content="Wykonaj" Name="ProcessButton" HorizontalAlignment="Left" Height="23" Margin="708,144,0,0" VerticalAlignment="Top" Width="236" Click="ProcessButton_Click"/>
         <ListView Name="DocumentsListView" HorizontalAlignment="Center" Height="194" Margin="40,219,565,0" VerticalAlignment="Top" Width="492" IsSynchronizedWithCurrentItem="True" IsTabStop="True">
             <ListView.View>
                 <GridView>
+                    <GridViewColumn Header="Istotny" Width="Auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox Margin="10,0,0,0" IsChecked="{Binding Path=important}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                     <GridViewColumn Header="Nazwa dokumentu" DisplayMemberBinding="{Binding name}" Width="Auto"/>
                     <GridViewColumn Header="Zawartość" DisplayMemberBinding="{Binding termsInSTring}" Width="Auto"/>
                 </GridView>
@@ -30,7 +37,7 @@
                 <ImageBrush/>
             </TextBox.Background>
         </TextBox>
-        <Label Content="Zapytanie" HorizontalAlignment="Left" Margin="50,96,0,0" VerticalAlignment="Top"/>
+        <Label Content="Zapytanie:" HorizontalAlignment="Left" Margin="50,96,0,0" VerticalAlignment="Top"/>
         <Separator HorizontalAlignment="Left" Height="16" Margin="40,413,0,0" VerticalAlignment="Top" Width="1014" Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}"/>
         <ListView Name="ResultListView" HorizontalAlignment="Left" Height="194" Margin="736,219,0,0" VerticalAlignment="Top" Width="318">
             <ListView.View>
@@ -40,6 +47,12 @@
                 </GridView>
             </ListView.View>
         </ListView>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="224,144,0,0" TextWrapping="Wrap" Name="AlfaTextBox" VerticalAlignment="Top" Width="50"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="347,144,0,0" TextWrapping="Wrap" Name="BetaTextBox" VerticalAlignment="Top" Width="50"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="493,144,0,0" TextWrapping="Wrap" Name="GammaTextBox" VerticalAlignment="Top" Width="50"/>
+        <Label Content="alfa:" HorizontalAlignment="Left" Margin="189,144,0,0" VerticalAlignment="Top" Width="53"/>
+        <Label Content="beta:" HorizontalAlignment="Left" Margin="309,144,0,0" VerticalAlignment="Top" Width="38"/>
+        <Label Content="gamma:" HorizontalAlignment="Left" Margin="438,144,0,0" VerticalAlignment="Top" Width="64" />
 
 
     </Grid>
