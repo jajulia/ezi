@@ -49,10 +49,14 @@ namespace ezi
                 if (button.Name == "DocumentsButton")
                 {
                     DocumentsTextBox.Text = filename;
+                    knowledge.UpdateData(DocumentsTextBox.Text, "");
+                    DocumentsListView.ItemsSource = knowledge.documents;
                 }
                 else if (button.Name == "KeywordsButton")
                 {
                     KeywordsTextBox.Text = filename;
+                    knowledge.UpdateData("", KeywordsTextBox.Text);
+                    KeywordsListView.ItemsSource = knowledge.keywords;
                 }
             }
         }
@@ -64,9 +68,8 @@ namespace ezi
             {
                 if (QueryTextBox.Text.Length > 0 && DocumentsTextBox.Text.Length > 0 && KeywordsTextBox.Text.Length > 0)
                 {
-                    knowledge.UpdateData(DocumentsTextBox.Text, KeywordsTextBox.Text);
-                    DocumentsListView.ItemsSource = knowledge.documents;
-                    KeywordsListView.ItemsSource = knowledge.keywords;
+                    knowledge.setParam(AlfaTextBox.Text, BetaTextBox.Text, GammaTextBox.Text);
+
                     knowledge.Calculate(QueryTextBox.Text);
                     //knowledge.documents.OrderBy(x => x.result);
                     ResultListView.ItemsSource = knowledge.documents.OrderByDescending(x => x.result); //knowledge.documents;

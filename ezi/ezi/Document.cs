@@ -13,6 +13,7 @@ namespace ezi
         public string termsInSTring { get { return string.Join(",", terms); } }
         public double result { get; set; }
         public double length { get; set; }
+        public bool important { get; set; }
 
         public Document(string tempName)
         {
@@ -34,5 +35,6 @@ namespace ezi
             }
             
         }
+
     }
 }
