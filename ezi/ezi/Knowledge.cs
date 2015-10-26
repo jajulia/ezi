@@ -11,7 +11,7 @@ namespace ezi
     public class Knowledge
     {
         public List<Document> documents { get; private set; }
-        public Dictionary<String, int> keywords { get; private set; }
+        public Dictionary<String, double> keywords { get; private set; }
         public double alfa { get; set; }
         public double beta { get; set; }
         public double gamma { get; set; }
@@ -20,7 +20,7 @@ namespace ezi
         public Knowledge()
         {
             this.documents = new List<Document>();
-            this.keywords = new Dictionary<String, int>();
+            this.keywords = new Dictionary<String, double>();
 
         }
         public void UpdateData(string documentsFileName, string keywordsFileName)
@@ -129,9 +129,12 @@ namespace ezi
                 }
                 else { } //+++
             }
+            foreach (KeyValuePair<String, double> keyword in keywords)
+            {
+                keywords[keyword.Key] = rocchio(keyword.Key);
+            }              
 
-
-            foreach(KeyValuePair<String, int> keyword in keywords)
+            foreach(KeyValuePair<String, double> keyword in keywords)
             {
                 
                 //wykorzstanei result jako bufo
@@ -155,7 +158,7 @@ namespace ezi
             foreach (Document docu in documents)
             {
                 
-                foreach (KeyValuePair<String, int> keyword in keywords)
+                foreach (KeyValuePair<String, double> keyword in keywords)
                 {
                     //+++ czasem nie zawieralo
                     if (docu.terms.ContainsKey(keyword.Key)
@@ -170,7 +173,7 @@ namespace ezi
                 docu.length = Math.Sqrt(docu.length);
             }
             double len=0;
-            foreach (KeyValuePair<String, int> keyword in keywords)
+            foreach (KeyValuePair<String, double> keyword in keywords)
             {
                 //+++
                 if (keywords.Values.Max() > 0 && documents.Where(x => x.terms.ContainsKey(keyword.Key)).Count() > 0)
