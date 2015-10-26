@@ -206,12 +206,30 @@ namespace ezi
          * */
         public double rocchio(string keyword)
         {
+            double importantAvg;
+            double unimportantAvg;
+            List<Document> docs;
+
             //foreach (string keyword in this.keywords) { 
             if (keywords.ContainsKey(keyword))
             {
-                double importantAvg = this.documents.Where(x => x.important == true && x.terms.ContainsKey(keyword)).ToList().Average(y => y.terms[keyword]);
-                double unimportantAvg = this.documents.Where(x => x.important == false && x.terms.ContainsKey(keyword)).ToList().Average(y => y.terms[keyword]);
-                
+                docs = this.documents.Where(x => x.important == true && x.terms.ContainsKey(keyword)).ToList();
+                if (docs.Count > 0)
+                {
+                    importantAvg = this.documents.Where(x => x.important == true && x.terms.ContainsKey(keyword)).ToList().Average(y => y.terms[keyword]);
+                }
+                else
+                    importantAvg = 0;
+
+                docs = this.documents.Where(x => x.important == false && x.terms.ContainsKey(keyword)).ToList();
+
+                if (docs.Count > 0)
+                {
+                    unimportantAvg = this.documents.Where(x => x.important == false && x.terms.ContainsKey(keyword)).ToList().Average(y => y.terms[keyword]);
+                }
+                else
+                    unimportantAvg = 0;
+
                 //keywords[keyword] = 
                 return keywords[keyword] * this.alfa + importantAvg * this.beta + unimportantAvg * this.gamma;
 

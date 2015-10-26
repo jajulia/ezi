@@ -51,21 +51,36 @@ namespace ezi
                     DocumentsTextBox.Text = filename;
                     knowledge.UpdateData(DocumentsTextBox.Text, "");
                     DocumentsListView.ItemsSource = knowledge.documents;
+                    RefreshView(new object[] { DocumentsListView.ItemsSource });
                 }
                 else if (button.Name == "KeywordsButton")
                 {
+                    knowledge.documents.Clear();
+                    DocumentsListView.ItemsSource = knowledge.documents;
+                    DocumentsTextBox.Text = "";
                     KeywordsTextBox.Text = filename;
                     knowledge.UpdateData("", KeywordsTextBox.Text);
                     KeywordsListView.ItemsSource = knowledge.keywords;
+                    DocumentsButton.IsEnabled = true;
+                    RefreshView(new object[] { DocumentsListView.ItemsSource, KeywordsListView.ItemsSource });
                 }
+            }
+        }
+
+        private void RefreshView(object[] itemSources)
+        {
+            foreach (object o in itemSources)
+            {
+                ICollectionView view = CollectionViewSource.GetDefaultView(o);
+                view.Refresh();
             }
         }
 
         private void ProcessButton_Click(object sender, RoutedEventArgs e)
         {
             
-            try
-            {
+            //try
+            //{
                 if (QueryTextBox.Text.Length > 0 && DocumentsTextBox.Text.Length > 0 && KeywordsTextBox.Text.Length > 0)
                 {
                     knowledge.setParam(AlfaTextBox.Text, BetaTextBox.Text, GammaTextBox.Text);
@@ -73,12 +88,7 @@ namespace ezi
                     knowledge.Calculate(QueryTextBox.Text);
                     //knowledge.documents.OrderBy(x => x.result);
                     ResultListView.ItemsSource = knowledge.documents.OrderByDescending(x => x.result); //knowledge.documents;
-                    ICollectionView view = CollectionViewSource.GetDefaultView(DocumentsListView.ItemsSource);
-                    view.Refresh();
-                    view = CollectionViewSource.GetDefaultView(KeywordsListView.ItemsSource);
-                    view.Refresh();
-                    view = CollectionViewSource.GetDefaultView(ResultListView.ItemsSource);
-                    view.Refresh();
+                    RefreshView(new object[] { DocumentsListView.ItemsSource, KeywordsListView.ItemsSource, ResultListView.ItemsSource });
                     
 
                 }
@@ -87,11 +97,13 @@ namespace ezi
                     throw new Exception("Brak wszytskich danych. Nalezy podac dwa pliki oraz zapytanie.");
                 }
                 
-            }
+            //}
+                /*
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK,MessageBoxImage.Error);
             }
+                 **/
 
         }
 
