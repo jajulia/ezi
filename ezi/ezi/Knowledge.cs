@@ -154,8 +154,9 @@ namespace ezi
         {
             part = part.ToLower();
             part = Regex.Replace(part, @"[^\ a-z0-9]", "");
-            part = part.Replace("  ", " ");
-            part = part.Replace("   ", " ");//sklejanie spacji funkcja
+            part = part.Replace("/  +/g", " ");
+            //part = part.Replace("  ", " ");
+            //part = part.Replace("   ", " ");//sklejanie spacji funkcja
             return part;
         }
 
