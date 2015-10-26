@@ -129,9 +129,9 @@ namespace ezi
                 }
                 else { } //+++
             }
-            foreach (KeyValuePair<String, double> keyword in keywords)
+            foreach (String keyword in keywords.Keys.ToList())
             {
-                keywords[keyword.Key] = rocchio(keyword.Key);
+                keywords[keyword] = rocchio(keyword);
             }              
 
             foreach(KeyValuePair<String, double> keyword in keywords)
@@ -231,7 +231,8 @@ namespace ezi
                     unimportantAvg = 0;
 
                 //keywords[keyword] = 
-                return keywords[keyword] * this.alfa + importantAvg * this.beta + unimportantAvg * this.gamma;
+                double tempResult = keywords[keyword] * this.alfa + importantAvg * this.beta + unimportantAvg * this.gamma;
+                return tempResult;
 
             }
 
