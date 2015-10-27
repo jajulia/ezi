@@ -79,12 +79,12 @@ namespace ezi
         private void ProcessButton_Click(object sender, RoutedEventArgs e)
         {
             
-            //try
-            //{
+            try
+            {
                 if (QueryTextBox.Text.Length > 0 && DocumentsTextBox.Text.Length > 0 && KeywordsTextBox.Text.Length > 0)
                 {
                     knowledge.setParam(AlfaTextBox.Text, BetaTextBox.Text, GammaTextBox.Text);
-
+                    knowledge.UpdateData(DocumentsTextBox.Text, KeywordsTextBox.Text);
                     knowledge.Calculate(QueryTextBox.Text);
                     //knowledge.documents.OrderBy(x => x.result);
                     ResultListView.ItemsSource = knowledge.documents.OrderByDescending(x => x.result); //knowledge.documents;
@@ -97,13 +97,11 @@ namespace ezi
                     throw new Exception("Brak wszytskich danych. Nalezy podac dwa pliki oraz zapytanie.");
                 }
                 
-            //}
-                /*
+            }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK,MessageBoxImage.Error);
             }
-                 **/
 
         }
 
