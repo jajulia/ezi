@@ -83,18 +83,18 @@ namespace ezi
             {
                 if (QueryTextBox.Text.Length > 0 && DocumentsTextBox.Text.Length > 0 && KeywordsTextBox.Text.Length > 0)
                 {
+                    knowledge.UpdateData("", KeywordsTextBox.Text);
                     knowledge.setParam(AlfaTextBox.Text, BetaTextBox.Text, GammaTextBox.Text);
-                    knowledge.UpdateData(DocumentsTextBox.Text, KeywordsTextBox.Text);
                     knowledge.Calculate(QueryTextBox.Text);
                     //knowledge.documents.OrderBy(x => x.result);
                     ResultListView.ItemsSource = knowledge.documents.OrderByDescending(x => x.result); //knowledge.documents;
                     RefreshView(new object[] { DocumentsListView.ItemsSource, KeywordsListView.ItemsSource, ResultListView.ItemsSource });
-                    
+                    knowledge.UpdateData(DocumentsTextBox.Text, "");
 
                 }
                 else
                 {
-                    throw new Exception("Brak wszytskich danych. Nalezy podac dwa pliki oraz zapytanie.");
+                    throw new Exception("Brak wszystkich danych. Nalezy podac dwa pliki oraz zapytanie.");
                 }
                 
             }
