@@ -85,6 +85,11 @@ namespace ezi
                 {
                     knowledge.UpdateData("", KeywordsTextBox.Text);
                     knowledge.setParam(AlfaTextBox.Text, BetaTextBox.Text, GammaTextBox.Text);
+                    foreach (Document d in knowledge.documents)
+                    {
+                        if (d.important == true && d.unimportant == true)
+                            throw new Exception("Ustaw poprawną istotność!");
+                    }
                     knowledge.Calculate(QueryTextBox.Text);
                     //knowledge.documents.OrderBy(x => x.result);
                     ResultListView.ItemsSource = knowledge.documents.OrderByDescending(x => x.result); //knowledge.documents;
