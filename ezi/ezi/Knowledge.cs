@@ -221,17 +221,21 @@ namespace ezi
                 else
                     importantAvg = 0;
 
-                docs = this.documents.Where(x => x.important == false && x.terms.ContainsKey(keyword)).ToList();
+                docs = this.documents.Where(x => x.unimportant == true && x.terms.ContainsKey(keyword)).ToList();
 
                 if (docs.Count > 0)
                 {
-                    unimportantAvg = this.documents.Where(x => x.important == false && x.terms.ContainsKey(keyword)).ToList().Average(y => y.terms[keyword]);
+                    unimportantAvg = this.documents.Where(x => x.unimportant == true && x.terms.ContainsKey(keyword)).ToList().Average(y => y.terms[keyword]);
                 }
                 else
                     unimportantAvg = 0;
 
                 //keywords[keyword] = 
-                double tempResult = keywords[keyword] * this.alfa + importantAvg * this.beta + unimportantAvg * this.gamma;
+                double tempResult = keywords[keyword] * this.alfa + importantAvg * this.beta - unimportantAvg * this.gamma;
+                if (tempResult < 0)
+                {
+                    tempResult = 0;
+                }
                 return tempResult;
 
             }

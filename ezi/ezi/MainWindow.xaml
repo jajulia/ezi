@@ -20,6 +20,13 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
+                    <GridViewColumn Header="Nie istotny" Width="Auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox Margin="10,0,0,0" IsChecked="{Binding Path=unimportant}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                     <GridViewColumn Header="Nazwa dokumentu" DisplayMemberBinding="{Binding name}" Width="Auto"/>
                     <GridViewColumn Header="Zawartość" DisplayMemberBinding="{Binding termsInSTring}" Width="Auto"/>
                 </GridView>

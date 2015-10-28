@@ -14,6 +14,7 @@ namespace ezi
         public double result { get; set; }
         public double length { get; set; }
         public bool important { get; set; }
+        public bool unimportant { get; set; }
 
         public Document(string tempName)
         {
